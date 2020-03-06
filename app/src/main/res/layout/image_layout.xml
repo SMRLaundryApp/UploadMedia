@@ -23,4 +23,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="upload" />
+
+    <TextView
+        android:id="@+id/responseTxt"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:text="responseTxt" />
+
 </LinearLayout>

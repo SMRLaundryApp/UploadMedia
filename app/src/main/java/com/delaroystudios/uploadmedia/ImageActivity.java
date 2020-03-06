@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -47,6 +48,8 @@ import retrofit2.Response;
 public class ImageActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView imageView;
     Button pickImage, upload;
+    private TextView responseTxt;
+
     private static final int REQUEST_TAKE_PHOTO = 0;
     private static final int REQUEST_PICK_PHOTO = 2;
     private Uri mMediaUri;
@@ -77,6 +80,8 @@ public class ImageActivity extends AppCompatActivity implements View.OnClickList
         imageView = (ImageView) findViewById(R.id.preview);
         pickImage = (Button) findViewById(R.id.pickImage);
         upload = (Button) findViewById(R.id.upload);
+
+        responseTxt = (TextView) findViewById(R.id.responseTxt);
 
         pickImage.setOnClickListener(this);
         upload.setOnClickListener(this);
@@ -181,7 +186,7 @@ public class ImageActivity extends AppCompatActivity implements View.OnClickList
      * */
     private boolean isDeviceSupportCamera() {
         if (getApplicationContext().getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA)) {
+                PackageManager.FEATURE_CAMERA_ANY)) {
             // this device has a camera
             return true;
         } else {
@@ -380,6 +385,7 @@ public class ImageActivity extends AppCompatActivity implements View.OnClickList
                             hidepDialog();
                             ServerResponse serverResponse = response.body();
                             Toast.makeText(getApplicationContext(), serverResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            responseTxt.setText(serverResponse.getMessage());
 
                         }
                     }else {
@@ -391,7 +397,7 @@ public class ImageActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onFailure(Call<ServerResponse> call, Throwable t) {
                     hidepDialog();
-                    Log.v("Response gotten is", t.getMessage());
+                    Log.e("Response gotten is", t.getMessage());
                 }
             });
         }
